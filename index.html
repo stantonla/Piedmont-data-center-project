@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <title>Points on a map</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css' rel='stylesheet' />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+      p, h3 {
+        margin-block-end: 0 !important;
+        margin-block-start: 0 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id='map'></div>
+    <script>
+    // The value for 'accessToken' begins with 'pk...'
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic3RhbnRvbmwiLCJhIjoiY2w5Y3hrMGs3MDBxOTN2cG10bnFwemZ5cCJ9.-dbVEdBWwAYqpDM_eEaNmg';
+    const map = new mapboxgl.Map({
+      container: 'map',
+      // Replace YOUR_STYLE_URL with your style URL.
+      style: 'mapbox://styles/stantonl/cl9cxrch0001h14t6y8rmvja8',
+      center: [-77.553748, 38.761557],
+      zoom: 11
+    });
+
+    /*
+Add an event listener that runs
+  when a user clicks on the map element.
+*/
+map.on('click', (event) => {
+  // If the user clicked on one of your markers, get its information.
+  const features = map.queryRenderedFeatures(event.point, {
+    layers: ['datacenters'] // replace with your layer name
+  });
+  if (!features.length) {
+    return;
+  }
+  const feature = features[0];
+
+  /*
+    Create a popup, specify its options
+    and properties, and add it to the map.
+  */
+const popup = new mapboxgl.Popup({ offset: [0, -15] })
+  .setLngLat(feature.geometry.coordinates)
+  .setHTML(
+    `<h3>${feature.properties.OWNER}</h3>
+    <p>${feature.properties.ADDRESS} ${feature.properties.STREET}</p>
+    <p>${feature.properties.CITY}, ${feature.properties.ZIP}</p>
+    <p>${feature.properties.SQFT} sq. ft. on ${feature.properties.ACRES} acres</p>
+    <p><a href="${feature.properties.LINKS}"> View details</a></p>`
+  )
+  .addTo(map);
+});
+
+    </script>
+  </body>
+</html>
