@@ -61,7 +61,7 @@ const popup = new mapboxgl.Popup({ offset: [0, -15] })
     <p>${feature.properties.ADDRESS} ${feature.properties.STREET}</p>
     <p>${feature.properties.CITY}, ${feature.properties.ZIP}</p>
     <p>${feature.properties.SQFT} sq. ft. on ${feature.properties.ACRES} acres</p>
-    `
+    <p><a href="${feature.properties.LINKS}"> View details</a></p>`
   )
   .addTo(map);
 });
