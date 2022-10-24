@@ -117,10 +117,10 @@ map.on('click', (event) => {
   const features2 = map.queryRenderedFeatures(event.point, {
     layers: ['under-development'] // replace with your layer name
   });
-  if (!features2.length) {
+  if (!features.length) {
     return;
   }
-  const feature2 = features2[0];
+  const feature2 = features[0];
 
   /*
     Create a popup, specify its options
@@ -138,7 +138,7 @@ const popup = new mapboxgl.Popup({ offset: [0, -5] })
   )
 
 
-const popup2 = new mapboxgl.Popup2({ offset: [0, -5] })
+const popup2 = new mapboxgl.Popup({ offset: [0, -5] })
     .setLngLat(feature2.geometry.coordinates)
     .setHTML(
       `<h3>${feature2.properties.OWNER}</h3>
