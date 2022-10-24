@@ -132,7 +132,35 @@ const popup = new mapboxgl.Popup({ offset: [0, -5] })
 
 });
 
+map.on('click', (event) => {
+  // If the user clicked on one of your markers, get its information.
 
+  const features2 = map.queryRenderedFeatures(event.point, {
+    layers: ['under-development'] // replace with your layer name
+  });
+  if (!features.length) {
+    return;
+  }
+  const feature2 = features[0];
+
+  /*
+    Create a popup, specify its options
+    and properties, and add it to the map.
+  */
+
+const popup2 = new mapboxgl.Popup({ offset: [0, -5] })
+    .setLngLat(feature2.geometry.coordinates)
+    .setHTML(
+      `<h3>${feature2.properties.OWNER}</h3>
+      <p>${feature2.properties.ADDRESS} ${feature.properties.STREET}</p>
+      <p>${feature2.properties.CITY}, ${feature.properties.ZIP}</p>
+      <p><b>${feature2.properties.SQFT} sq. ft.</b> on <b>${feature.properties.ACRES} acres</b></p>
+      <p><a href="${feature2.properties.LINKS}" target="_blank">View details</a></p>`
+    )
+
+.addTo(map);
+
+});
     </script>
   </body>
 </html>
